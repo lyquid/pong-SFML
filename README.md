@@ -1,4 +1,4 @@
-# pong-allegro
+# pong-SFML
 
 Pong game in SFML 2.5.1.
 

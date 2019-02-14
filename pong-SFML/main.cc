@@ -1,7 +1,24 @@
-#include <SFML/Graphics.hpp>
+#include "classes/game.h"
 
-int main() {
-  sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+Game* game = NULL;
+
+int main(int argc, char* argv[]) {
+  std::srand(static_cast<unsigned int>(std::time(NULL)));
+
+  game = new Game();
+  game->init();
+
+  while (game->isRunning()) {
+    game->handleEvents();
+    game->update();
+    game->render();
+  }
+  game->clean();
+  delete game;
+  return EXIT_SUCCESS;
+}
+
+  /*   sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
   sf::CircleShape shape(100.f);
   shape.setFillColor(sf::Color::Green);
 
@@ -15,5 +32,5 @@ int main() {
     window.draw(shape);
     window.display();
   }
-  return 0;
-}
+  */  
+  

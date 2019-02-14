@@ -127,7 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="classes\game.cc" />
     <ClCompile Include="main.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\pong.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="classes\game.h" />
+    <ClInclude Include="config.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="classes\ball.cc" />
     <ClCompile Include="classes\game.cc" />
     <ClCompile Include="main.cc" />
   </ItemGroup>
@@ -134,6 +135,7 @@
     <Media Include="assets\pong.wav" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="classes\ball.h" />
     <ClInclude Include="classes\game.h" />
     <ClInclude Include="config.h" />
   </ItemGroup>

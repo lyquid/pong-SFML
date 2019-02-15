@@ -4,6 +4,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "ball.h"
 #include "../config.h"
 
 using namespace sf;
@@ -24,8 +25,9 @@ class Game {
 
  private:
   // void checkPlayermevem...
-  void mustInit(bool test, const char* desc);
-
+  
+  Ball ball_;
+  Clock clock_;
   Event event_;
   bool paused_ = true;
   bool redraw_ = true;

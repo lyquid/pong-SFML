@@ -46,11 +46,20 @@ bool Game::isRunning() {
   return running_;
 }
 
-void Game::mustInit(bool test, const char* desc) {}
-
 void Game::render() {
   window_.clear();
+  window_.draw(ball_.getShape());
   window_.display();
 }
 
-void Game::update() {}
+void Game::update() {
+  float delta_time = clock_.restart().asSeconds();
+  ball_.move(delta_time);
+  if (ball_.exitLeft() || ball_.exitRight()) {
+    ball_ = Ball();
+  } else {
+    if (ball_.checkCollisions()) {
+      ball_.bounce();
+    }
+  }
+}

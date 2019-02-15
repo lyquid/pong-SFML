@@ -1,5 +1,5 @@
-#ifndef PONGSFML_CLASSES_GAME_H_
-#define PONGSFML_CLASSES_GAME_H_
+#ifndef PONG_SFML_CLASSES_GAME_H_
+#define PONG_SFML_CLASSES_GAME_H_
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -30,7 +30,8 @@ class Game {
   bool paused_ = true;
   bool redraw_ = true;
   bool running_ = false;
+  String title_ = kAppName + " - v" + kAppVersion;
   RenderWindow window_;
 };
 
-#endif  // PONGSFML_CLASSES_GAME_H_
+#endif  // PONG_SFML_CLASSES_GAME_H_

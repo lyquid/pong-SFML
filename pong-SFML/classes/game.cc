@@ -6,15 +6,32 @@ void Game::clean() {
 
 void Game::handleEvents() {
   while (window_.pollEvent(event_)) {
-    if (event_.type == Event::Closed)
-      running_ = false;
+    switch (event_.type) {
+      case Event::Closed: 
+        running_ = false;
+        break;
+
+      case Event::KeyPressed: {
+        switch (event_.key.code) {
+          case Keyboard::Escape:
+            running_ = false;
+            break;
+
+          case Keyboard::Space:
+            // start the game or something
+            break;
+        }
+        break;
+      }
+      // default
+    } 
   }
 }
 
 void Game::init() {
   window_.create(
     VideoMode(kScreenWidth, kScreenHeight, 32), 
-    kAppName, 
+    title_, 
     Style::Titlebar | Style::Close
   );
   window_.setVerticalSyncEnabled(true);
@@ -31,6 +48,9 @@ bool Game::isRunning() {
 
 void Game::mustInit(bool test, const char* desc) {}
 
-void Game::render() {}
+void Game::render() {
+  window_.clear();
+  window_.display();
+}
 
 void Game::update() {}

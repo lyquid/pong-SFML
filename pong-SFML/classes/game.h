@@ -6,12 +6,27 @@
 
 #include "ball.h"
 #include "../config.h"
+#include "player.h"
 
 using namespace sf;
 
 class Game {
  public:
-  Game() {}
+  Game() {
+    player1_.setPosition(
+      Vector2f(
+        (kScreenWidth * 0.05) - (player1_.getSize().x / 2), 
+        (kScreenHeight / 2) - (player1_.getSize().y / 2))
+    );
+    player2_.setPosition(
+      Vector2f(
+        (kScreenWidth * 0.95) - (player2_.getSize().x / 2), 
+        (kScreenHeight / 2) - (player2_.getSize().y / 2))
+    );
+    pauseMessage.setString("Paused. Press space to resume.");
+    pauseMessage.setFillColor(Color::White);
+    // pauseMessage.setPosition(Vector2f(kScreenWidth / 2, kScreenHeight / 2));
+  }
   ~Game() {}
 
   void clean();
@@ -19,18 +34,18 @@ class Game {
   void init();
   bool isPaused();
   bool isRunning();
-  // void registerEvents();
   void render();
   void update();
 
  private:
-  // void checkPlayermevem...
-  
   Ball ball_;
   Clock clock_;
   Event event_;
-  bool paused_ = true;
-  bool redraw_ = true;
+  bool paused_ = false;
+  Text pauseMessage;
+  Player player1_ = Player("player1", 1);
+  Player player2_ = Player("player2", 2);
+  // bool redraw_ = true;
   bool running_ = false;
   String title_ = kAppName + " - v" + kAppVersion;
   RenderWindow window_;

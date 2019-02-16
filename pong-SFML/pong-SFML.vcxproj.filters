@@ -24,6 +24,9 @@
     <ClCompile Include="classes\ball.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="classes\player.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Media Include="assets\pong.wav">
@@ -38,6 +41,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="classes\ball.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <AdditionalIncludeDirectories>C:\vs_dev_lib\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -101,7 +101,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <AdditionalIncludeDirectories>C:\vs_dev_lib\SFML-2.5.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="classes\ball.cc" />
     <ClCompile Include="classes\game.cc" />
+    <ClCompile Include="classes\player.cc" />
     <ClCompile Include="main.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +138,7 @@
   <ItemGroup>
     <ClInclude Include="classes\ball.h" />
     <ClInclude Include="classes\game.h" />
+    <ClInclude Include="classes\player.h" />
     <ClInclude Include="config.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

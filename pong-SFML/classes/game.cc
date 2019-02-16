@@ -29,12 +29,30 @@ void Game::handleEvents() {
 }
 
 void Game::init() {
+  // aplication window
   window_.create(
     VideoMode(kScreenWidth, kScreenHeight, 32), 
     title_, 
     Style::Titlebar | Style::Close
   );
   window_.setVerticalSyncEnabled(true);
+  // font for texts and  pause message
+  if (!font_.loadFromFile("assets/AtariClassic-Regular.ttf")) {
+    exit(EXIT_FAILURE);
+  } else {
+    pauseMessage_.setFont(font_);
+    pauseMessage_.setString("Paused. Press space to resume.");
+    pauseMessage_.setCharacterSize(15);
+    pauseMessage_.setFillColor(Color::White);
+    pauseMessage_.setOrigin(
+      (pauseMessage_.getLocalBounds().left + pauseMessage_.getLocalBounds().width) / 2.f,
+      (pauseMessage_.getLocalBounds().top + pauseMessage_.getLocalBounds().height) / 2.f
+    );
+    pauseMessage_.setPosition(Vector2f(kScreenWidth / 2, kScreenHeight / 2));
+  }
+  // put players in place
+  resetPlayersPositions();
+  // activate running flag
   running_ = true;
 }
 
@@ -52,8 +70,21 @@ void Game::render() {
   window_.draw(player1_.getShape());
   window_.draw(player2_.getShape());
   if (paused_) 
-    window_.draw(pauseMessage);
+    window_.draw(pauseMessage_);
   window_.display();
+}
+
+void Game::resetPlayersPositions() {
+  player1_.setPosition(
+    Vector2f(
+      (kScreenWidth * 0.05) - (player1_.getSize().x / 2), 
+      (kScreenHeight / 2) - (player1_.getSize().y / 2))
+  );
+  player2_.setPosition(
+    Vector2f(
+      (kScreenWidth * 0.95) - (player2_.getSize().x / 2), 
+      (kScreenHeight / 2) - (player2_.getSize().y / 2))
+  );
 }
 
 void Game::update() {

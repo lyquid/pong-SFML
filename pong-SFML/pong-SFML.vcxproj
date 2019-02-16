@@ -141,6 +141,9 @@
     <ClInclude Include="classes\player.h" />
     <ClInclude Include="config.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\AtariClassic-Regular.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

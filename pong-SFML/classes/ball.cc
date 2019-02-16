@@ -16,7 +16,7 @@ bool Ball::exitRight() {
   return (ball_.getPosition().x + radius_ > kScreenWidth) ? true : false;
 }
 
-CircleShape Ball::getShape() {
+sf::CircleShape Ball::getShape() {
   return ball_;
 }
 

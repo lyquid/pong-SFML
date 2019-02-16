@@ -1,5 +1,12 @@
 #include "game.h"
 
+void Game::centerTextOrigin(sf::Text* text) {
+  text->setOrigin(
+    (text->getLocalBounds().left + text->getLocalBounds().width) / 2.f,
+    (text->getLocalBounds().top + text->getLocalBounds().height) / 2.f
+  );
+}
+
 void Game::clean() {
   window_.close();
 }
@@ -7,17 +14,17 @@ void Game::clean() {
 void Game::handleEvents() {
   while (window_.pollEvent(event_)) {
     switch (event_.type) {
-      case Event::Closed: 
+      case sf::Event::Closed: 
         running_ = false;
         break;
 
-      case Event::KeyPressed: {
+      case sf::Event::KeyPressed: {
         switch (event_.key.code) {
-          case Keyboard::Escape:
+          case sf::Keyboard::Escape:
             running_ = false;
             break;
 
-          case Keyboard::Space:
+          case sf::Keyboard::Space:
             paused_ = !paused_;
             break;
         }
@@ -31,24 +38,29 @@ void Game::handleEvents() {
 void Game::init() {
   // aplication window
   window_.create(
-    VideoMode(kScreenWidth, kScreenHeight, 32), 
+    sf::VideoMode(kScreenWidth, kScreenHeight, 32), 
     title_, 
-    Style::Titlebar | Style::Close
+    sf::Style::Titlebar | sf::Style::Close
   );
   window_.setVerticalSyncEnabled(true);
-  // font for texts and  pause message
+  // font for texts
   if (!font_.loadFromFile("assets/AtariClassic-Regular.ttf")) {
     exit(EXIT_FAILURE);
   } else {
-    pauseMessage_.setFont(font_);
-    pauseMessage_.setString("Paused. Press space to resume.");
-    pauseMessage_.setCharacterSize(15);
-    pauseMessage_.setFillColor(Color::White);
-    pauseMessage_.setOrigin(
-      (pauseMessage_.getLocalBounds().left + pauseMessage_.getLocalBounds().width) / 2.f,
-      (pauseMessage_.getLocalBounds().top + pauseMessage_.getLocalBounds().height) / 2.f
-    );
-    pauseMessage_.setPosition(Vector2f(kScreenWidth / 2, kScreenHeight / 2));
+    // pause text
+    pause_text_.setFont(font_);
+    pause_text_.setString("Paused. Press space to resume.");
+    pause_text_.setCharacterSize(15);
+    pause_text_.setFillColor(sf::Color::White);
+    centerTextOrigin(&pause_text_);
+    pause_text_.setPosition(sf::Vector2f(kScreenWidth / 2, kScreenHeight / 2));
+    // score text
+    score_text_.setFont(font_);
+    score_text_.setString("0 - SCORE - 0");
+    score_text_.setCharacterSize(15);
+    score_text_.setFillColor(sf::Color::White);
+    centerTextOrigin(&score_text_);
+    score_text_.setPosition(kScreenWidth / 2, 8);
   }
   // put players in place
   resetPlayersPositions();
@@ -66,25 +78,33 @@ bool Game::isRunning() {
 
 void Game::render() {
   window_.clear();
+  window_.draw(score_text_);
   window_.draw(ball_.getShape());
   window_.draw(player1_.getShape());
   window_.draw(player2_.getShape());
   if (paused_) 
-    window_.draw(pauseMessage_);
+    window_.draw(pause_text_);
+  // display the updated frame
   window_.display();
 }
 
 void Game::resetPlayersPositions() {
   player1_.setPosition(
-    Vector2f(
+    sf::Vector2f(
       (kScreenWidth * 0.05) - (player1_.getSize().x / 2), 
       (kScreenHeight / 2) - (player1_.getSize().y / 2))
   );
   player2_.setPosition(
-    Vector2f(
+    sf::Vector2f(
       (kScreenWidth * 0.95) - (player2_.getSize().x / 2), 
       (kScreenHeight / 2) - (player2_.getSize().y / 2))
   );
+}
+
+template <typename T> std::string Game::toString(T arg) {
+  std::stringstream ss;
+  ss << arg;
+  return ss.str();
 }
 
 void Game::update() {
@@ -92,28 +112,42 @@ void Game::update() {
   if (!paused_) {
     // ball
     ball_.move(delta_time);
-    if (ball_.exitLeft() || ball_.exitRight()) {
+    if (ball_.exitLeft()) {
+      player2_.incrementScore();
       ball_ = Ball();
-    } else {
-      if (ball_.checkCollisions()) {
-        ball_.bounce();
-      }
+    } 
+    if (ball_.exitRight()) {
+      player1_.incrementScore();
+      ball_ = Ball();
     }
+    updateScoreText();
+    if (ball_.checkCollisions()) {
+      ball_.bounce();
+    }
+    
     // player1
-    if (Keyboard::isKeyPressed(Keyboard::W)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
         && player1_.getPosition().y > 0)
       player1_.moveUp(delta_time);
 
-    if (Keyboard::isKeyPressed(Keyboard::S)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
         && (player1_.getPosition().y + player1_.getSize().y) < kScreenHeight)
       player1_.moveDown(delta_time);
     // player2
-    if (Keyboard::isKeyPressed(Keyboard::Up)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
         && player2_.getPosition().y > 0)
       player2_.moveUp(delta_time);
 
-    if (Keyboard::isKeyPressed(Keyboard::Down)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
         && (player2_.getPosition().y + player2_.getSize().y) < kScreenHeight)
       player2_.moveDown(delta_time);
   }
+}
+
+void Game::updateScoreText() {
+  score_text_.setString(
+    toString<int>(player1_.getScore()) 
+    + " - SCORE - " 
+    + toString<int>(player2_.getScore())
+  );
 }

@@ -47,6 +47,10 @@ void Game::init() {
     sf::Style::Titlebar | sf::Style::Close
   );
   window_.setVerticalSyncEnabled(true);
+  // sounds
+  if (!ball_sound_buffer_.loadFromFile("assets/pong.wav"))
+    exit(EXIT_FAILURE);
+  ball_.setSound(&ball_sound_buffer_);
   // font for texts
   if (!font_.loadFromFile("assets/AtariClassic-Regular.ttf")) {
     exit(EXIT_FAILURE);

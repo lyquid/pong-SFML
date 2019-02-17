@@ -2,6 +2,7 @@
 #define PONG_SFML_CLASSES_BALL_H_
 
 #include <cstdlib>
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
 #include "../config.h"
@@ -28,11 +29,19 @@ class Ball {
   sf::CircleShape getShape();
   void move(float delta_time);
   void playerCollision(Player p1, Player p2);
+  void playSound(int sound);
+  void setSound(sf::SoundBuffer* sound_buffer);
   void wallCollision();
 
  private:
+  enum BallSounds {
+    kBounce,
+    kDestroy,
+    kPoint
+  };
   float angle_ = 0.f;
   sf::CircleShape ball_;
+  sf::Sound bounce_sound_;
   float radius_ = 10.f;
   float speed_ = 400.f;
 };

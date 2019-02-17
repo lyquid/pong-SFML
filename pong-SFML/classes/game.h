@@ -31,6 +31,7 @@ class Game {
 
   sf::Text angle_text_;
   Ball ball_;
+  sf::SoundBuffer ball_sound_buffer_;
   sf::Clock clock_;
   sf::Event event_;
   sf::Font font_;

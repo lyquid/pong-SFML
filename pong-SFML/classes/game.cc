@@ -48,22 +48,24 @@ void Game::init() {
     exit(EXIT_FAILURE);
   } else {
     // pause text
-    pause_text_.setFont(font_);
+    initText(&pause_text_, 15);
     pause_text_.setString("Paused. Press space to resume.");
-    pause_text_.setCharacterSize(15);
-    pause_text_.setFillColor(sf::Color::White);
     centerTextOrigin(&pause_text_);
     pause_text_.setPosition(sf::Vector2f(kScreenWidth / 2, kScreenHeight / 2));
     // score text
-    score_text_.setFont(font_);
-    score_text_.setCharacterSize(15);
-    score_text_.setFillColor(sf::Color::White);
+    initText(&score_text_, 15);
     updateScoreText();
   }
   // put players in place
   resetPlayersPositions();
   // activate running flag
   running_ = true;
+}
+
+void Game::initText(sf::Text* text, int size) {
+  text->setFont(font_);
+  text->setCharacterSize(size);
+  text->setFillColor(sf::Color::White);
 }
 
 bool Game::isPaused() {

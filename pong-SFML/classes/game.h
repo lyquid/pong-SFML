@@ -23,6 +23,7 @@ class Game {
 
  private:
   void centerTextOrigin(sf::Text* text);
+  void initText(sf::Text* text, int size);
   void resetPlayersPositions();
   template <typename T> std::string toString(T arg);
   void updateScoreText();

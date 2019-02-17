@@ -28,39 +28,26 @@ void Ball::move(float delta_time) {
 void Ball::playerCollision(Player p1, Player p2) {
   bool p1_collision = true;
   bool p2_collision = true;
-  //ball sides
-  float b_left   = ball_.getGlobalBounds().left;
-  float b_right  = ball_.getGlobalBounds().left + ball_.getGlobalBounds().width;
-  float b_top    = ball_.getGlobalBounds().top;
-  float b_bottom = ball_.getGlobalBounds().top + ball_.getGlobalBounds().height;
-  // player1 sides
-  float p1_left   = p1.getShape().getGlobalBounds().left;
-  float p1_right  = p1.getShape().getGlobalBounds().left + p1.getShape().getGlobalBounds().width;
-  float p1_top    = p1.getShape().getGlobalBounds().top;
-  float p1_bottom = p1.getShape().getGlobalBounds().top + p1.getShape().getGlobalBounds().height;
-  // player2 sides
-  float p2_left   = p2.getShape().getGlobalBounds().left;
-  float p2_right  = p2.getShape().getGlobalBounds().left + p2.getShape().getGlobalBounds().width;
-  float p2_top    = p2.getShape().getGlobalBounds().top;
-  float p2_bottom = p2.getShape().getGlobalBounds().top + p2.getShape().getGlobalBounds().height;
-  // collision check with player1
-  if ( b_left >= p1_right 
-    || b_right <= p1_left
-    || b_top >= p1_bottom
-    || b_bottom <= p1_top )
-      p1_collision = false;
-  // collision check with player2
-  if ( b_left >= p2_right 
-    || b_right <= p2_left
-    || b_top >= p2_bottom
-    || b_bottom <= p2_top )
-      p2_collision = false;
-  
-  if (p1_collision || p2_collision) {
-    // invert bounce
-    // angle_ = (kPi - angle_) + (kPi / 180);
-    // random bounce
-    angle_ = kPi - angle_ + (std::rand() % 20) * kPi / 180;
+  sf::FloatRect ball_bb = ball_.getGlobalBounds();
+  sf::FloatRect p1_bb = p1.getShape().getGlobalBounds();
+  sf::FloatRect p2_bb = p2.getShape().getGlobalBounds();
+  // player1 collision check
+  if (ball_bb.intersects(p1_bb)) {
+    if (ball_.getPosition().y > p1.getPosition().y) 
+      angle_ = kPi - angle_ + (std::rand() % 20) * kPi / 180;   
+    else 
+      angle_ = kPi - angle_ - (std::rand() % 20) * kPi / 180; 
+
+    ball_.setPosition(p1.getPosition().x + radius_ + p1.getSize().x / 2 + 0.1f, ball_.getPosition().y);
+  }  
+  // player2 collision check
+  if (ball_bb.intersects(p2_bb)) {
+    if (ball_.getPosition().y > p2.getPosition().y) 
+      angle_ = kPi - angle_ + (std::rand() % 20) * kPi / 180;   
+    else 
+      angle_ = kPi - angle_ - (std::rand() % 20) * kPi / 180; 
+    // seems that setOrigin isn't working here (r * 2)
+    ball_.setPosition(p2.getPosition().x - radius_ * 2 - p2.getSize().x / 2 - 0.1f, ball_.getPosition().y);
   }
 }
 

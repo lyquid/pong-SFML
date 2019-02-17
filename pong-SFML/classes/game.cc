@@ -27,10 +27,14 @@ void Game::handleEvents() {
           case sf::Keyboard::Space:
             paused_ = !paused_;
             break;
+          
+          default:
+            break;
         }
         break;
       }
-      // default
+      default:
+        break;
     } 
   }
 }
@@ -130,19 +134,19 @@ void Game::update() {
     updateAngleText();
     // player1
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
-        && player1_.getPosition().y > 0)
+        && player1_.getPosition().y > player1_.getSize().y / 2)
       player1_.moveUp(delta_time);
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
-        && (player1_.getPosition().y + player1_.getSize().y) < kScreenHeight)
+        && player1_.getPosition().y < kScreenHeight - (player1_.getSize().y / 2))
       player1_.moveDown(delta_time);
     // player2
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
-        && player2_.getPosition().y > 0)
+        && player2_.getPosition().y > player2_.getSize().y / 2)
       player2_.moveUp(delta_time);
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-        && (player2_.getPosition().y + player2_.getSize().y) < kScreenHeight)
+        && player2_.getPosition().y < kScreenHeight - (player2_.getSize().y / 2))
       player2_.moveDown(delta_time);
   }
 }

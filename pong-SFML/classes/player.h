@@ -11,6 +11,7 @@ class Player {
     name_ = name;
     number_ = number;
     shape_.setSize(size_);
+    shape_.setOrigin(size_ / 2.f);
   }
   ~Player() {}
 

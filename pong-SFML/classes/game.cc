@@ -55,6 +55,8 @@ void Game::init() {
     // score text
     initText(&score_text_, 15);
     updateScoreText();
+    // angle text
+    initText(&angle_text_, 15);
   }
   // put players in place
   resetPlayersPositions();
@@ -79,6 +81,7 @@ bool Game::isRunning() {
 void Game::render() {
   window_.clear();
   window_.draw(score_text_);
+  window_.draw(angle_text_);
   window_.draw(ball_.getShape());
   window_.draw(player1_.getShape());
   window_.draw(player2_.getShape());
@@ -110,7 +113,7 @@ template <typename T> std::string Game::toString(T arg) {
 void Game::update() {
   float delta_time = clock_.restart().asSeconds();
   if (!paused_) {
-    // ball
+    // ball movement
     ball_.move(delta_time);
     if (ball_.exitLeft()) {
       player2_.incrementScore();
@@ -121,10 +124,10 @@ void Game::update() {
       ball_ = Ball();
     }
     updateScoreText();
-    if (ball_.checkCollisions()) {
-      ball_.bounce();
-    }
-    
+    // ball collisions
+    ball_.wallCollision();
+    ball_.playerCollision(player1_, player2_);
+    updateAngleText();
     // player1
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
         && player1_.getPosition().y > 0)
@@ -142,6 +145,10 @@ void Game::update() {
         && (player2_.getPosition().y + player2_.getSize().y) < kScreenHeight)
       player2_.moveDown(delta_time);
   }
+}
+
+void Game::updateAngleText() {
+  angle_text_.setString("ball angle: " + toString<float>(ball_.getAngle()));
 }
 
 void Game::updateScoreText() {

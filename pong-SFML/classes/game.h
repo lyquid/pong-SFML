@@ -26,8 +26,10 @@ class Game {
   void initText(sf::Text* text, int size);
   void resetPlayersPositions();
   template <typename T> std::string toString(T arg);
+  void updateAngleText();
   void updateScoreText();
 
+  sf::Text angle_text_;
   Ball ball_;
   sf::Clock clock_;
   sf::Event event_;

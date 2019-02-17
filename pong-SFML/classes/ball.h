@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "../config.h"
+#include "player.h"
 
 class Ball {
  public:
@@ -21,13 +22,13 @@ class Ball {
   ~Ball() {}
 
   void bounce();
-  bool checkCollisions();
   bool exitLeft();
   bool exitRight();
+  float getAngle();
   sf::CircleShape getShape();
   void move(float delta_time);
-  bool playerCollision();
-  bool wallCollision();
+  void playerCollision(Player p1, Player p2);
+  void wallCollision();
 
  private:
   float angle_ = 0.f;
@@ -35,6 +36,5 @@ class Ball {
   float radius_ = 10.f;
   float speed_ = 400.f;
 };
-
 
 #endif  // PONG_SFML_CLASSES_BALL_H_

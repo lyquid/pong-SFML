@@ -56,11 +56,9 @@ void Game::init() {
     pause_text_.setPosition(sf::Vector2f(kScreenWidth / 2, kScreenHeight / 2));
     // score text
     score_text_.setFont(font_);
-    score_text_.setString("0 - SCORE - 0");
     score_text_.setCharacterSize(15);
     score_text_.setFillColor(sf::Color::White);
-    centerTextOrigin(&score_text_);
-    score_text_.setPosition(kScreenWidth / 2, 8);
+    updateScoreText();
   }
   // put players in place
   resetPlayersPositions();
@@ -145,9 +143,13 @@ void Game::update() {
 }
 
 void Game::updateScoreText() {
+  // todo: make score like
+  // 00001 -> 00120
   score_text_.setString(
     toString<int>(player1_.getScore()) 
     + " - SCORE - " 
     + toString<int>(player2_.getScore())
   );
+  centerTextOrigin(&score_text_);
+  score_text_.setPosition(kScreenWidth / 2, 8);
 }

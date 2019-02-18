@@ -17,10 +17,10 @@ enum BallSounds {
 class Ball {
  public:
   Ball() {
-    ball_.setRadius(radius_);
-    ball_.setFillColor(sf::Color::White);
-    ball_.setOrigin(radius_ / 2, radius_ / 2);
-    ball_.setPosition(kScreenWidth / 2, kScreenHeight / 2);
+    shape_.setRadius(radius_);
+    shape_.setFillColor(sf::Color::White);
+    shape_.setOrigin(radius_ / 2, radius_ / 2);
+    shape_.setPosition(kScreenWidth / 2, kScreenHeight / 2);
     do {
       angle_ = (std::rand() % 360) * 2 * kPi / 360;
     } while (std::abs(std::cos(angle_)) < 0.7f);
@@ -43,7 +43,7 @@ class Ball {
 
  private:
   float angle_ = 0.f;
-  sf::CircleShape ball_;
+  sf::CircleShape shape_;
   sf::Sound bounce_player_sound_;
   sf::Sound bounce_wall_sound_;
   sf::Sound point_sound_;

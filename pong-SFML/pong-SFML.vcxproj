@@ -133,7 +133,9 @@
     <ClCompile Include="main.cc" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="assets\pong.wav" />
+    <Media Include="assets\ping_pong_8bit_beeep.wav" />
+    <Media Include="assets\ping_pong_8bit_peeeeeep.wav" />
+    <Media Include="assets\ping_pong_8bit_plop.wav" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="classes\ball.h" />

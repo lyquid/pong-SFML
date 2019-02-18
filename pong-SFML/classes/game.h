@@ -23,6 +23,7 @@ class Game {
 
  private:
   void centerTextOrigin(sf::Text* text);
+  void initSound();
   void initText(sf::Text* text, int size);
   void resetPlayersPositions();
   template <typename T> std::string toString(T arg);
@@ -31,7 +32,9 @@ class Game {
 
   sf::Text angle_text_;
   Ball ball_;
-  sf::SoundBuffer ball_sound_buffer_;
+  sf::SoundBuffer ball_bounce_player_buffer_;
+  sf::SoundBuffer ball_bounce_wall_buffer_;
+  sf::SoundBuffer ball_point_buffer_;
   sf::Clock clock_;
   sf::Event event_;
   sf::Font font_;

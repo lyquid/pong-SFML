@@ -29,7 +29,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="assets\pong.wav">
+    <Media Include="assets\ping_pong_8bit_beeep.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\ping_pong_8bit_peeeeeep.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\ping_pong_8bit_plop.wav">
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>

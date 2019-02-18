@@ -33,17 +33,17 @@ void Ball::playerCollision(Player p1, Player p2) {
   sf::FloatRect p2_bb = p2.getShape().getGlobalBounds();
   // player1 collision check
   if (ball_bb.intersects(p1_bb)) {
-    playSound(kBounce);
+    playSound(kBouncePlayer);
     if (ball_.getPosition().y > p1.getPosition().y) 
       angle_ = kPi - angle_ + (std::rand() % 20) * kPi / 180;   
     else 
       angle_ = kPi - angle_ - (std::rand() % 20) * kPi / 180; 
 
     ball_.setPosition(p1.getPosition().x + radius_ + p1.getSize().x / 2 + 0.1f, ball_.getPosition().y);
-    
+
     // player2 collision check
   } else if (ball_bb.intersects(p2_bb)) {
-    playSound(kBounce);
+    playSound(kBouncePlayer);
     if (ball_.getPosition().y > p2.getPosition().y) 
       angle_ = kPi - angle_ + (std::rand() % 20) * kPi / 180;   
     else 
@@ -55,26 +55,32 @@ void Ball::playerCollision(Player p1, Player p2) {
 
 void Ball::playSound(int sound) {
   switch (sound) {
-    case kBounce:
-      bounce_sound_.play();
+    case kBouncePlayer:
+      bounce_player_sound_.play();
       break;
-    case kDestroy:
+    case kBounceWall:
+      bounce_wall_sound_.play();
       break;
     case kPoint:
+      point_sound_.play();
       break;
     default:
       break;
   }
 }
 
-void Ball::setSound(sf::SoundBuffer* sound_buffer) {
-  bounce_sound_.setBuffer(*sound_buffer);
+void Ball::setSound(sf::SoundBuffer* bounce_player_buffer, 
+                    sf::SoundBuffer* bounce_wall_buffer, 
+                    sf::SoundBuffer* point_buffer) {
+  bounce_player_sound_.setBuffer(*bounce_player_buffer);
+  bounce_wall_sound_.setBuffer(*bounce_wall_buffer);
+  point_sound_.setBuffer(*point_buffer);
 }
 
 void Ball::wallCollision() {
   if (ball_.getPosition().y < radius_ 
     || ball_.getPosition().y + radius_ > kScreenHeight) {
       angle_ = -angle_;
-      playSound(kBounce);
+      playSound(kBounceWall);
     }    
 }

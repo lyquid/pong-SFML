@@ -48,9 +48,7 @@ void Game::init() {
   );
   window_.setVerticalSyncEnabled(true);
   // sounds
-  if (!ball_sound_buffer_.loadFromFile("assets/pong.wav"))
-    exit(EXIT_FAILURE);
-  ball_.setSound(&ball_sound_buffer_);
+  initSound();
   // font for texts
   if (!font_.loadFromFile("assets/AtariClassic-Regular.ttf")) {
     exit(EXIT_FAILURE);
@@ -70,6 +68,15 @@ void Game::init() {
   resetPlayersPositions();
   // activate running flag
   running_ = true;
+}
+
+void Game::initSound() {
+  if (!ball_bounce_player_buffer_.loadFromFile("assets/ping_pong_8bit_beeep.wav") 
+  || (!ball_bounce_wall_buffer_.loadFromFile("assets/ping_pong_8bit_plop.wav"))
+  || (!ball_point_buffer_.loadFromFile("assets/ping_pong_8bit_peeeeeep.wav"))) {
+    exit(EXIT_FAILURE);
+  }
+  ball_.setSound(&ball_bounce_player_buffer_, &ball_bounce_wall_buffer_, &ball_point_buffer_);
 }
 
 void Game::initText(sf::Text* text, int size) {
@@ -124,10 +131,12 @@ void Game::update() {
     // ball movement
     ball_.move(delta_time);
     if (ball_.exitLeft()) {
+      ball_.playSound(kPoint); 
       player2_.incrementScore();
       ball_ = Ball();
     } 
     if (ball_.exitRight()) {
+      ball_.playSound(kPoint);
       player1_.incrementScore();
       ball_ = Ball();
     }

@@ -8,6 +8,12 @@
 #include "../config.h"
 #include "player.h"
 
+enum BallSounds {
+  kBouncePlayer,
+  kBounceWall,
+  kPoint
+};
+
 class Ball {
  public:
   Ball() {
@@ -30,18 +36,17 @@ class Ball {
   void move(float delta_time);
   void playerCollision(Player p1, Player p2);
   void playSound(int sound);
-  void setSound(sf::SoundBuffer* sound_buffer);
+  void setSound(sf::SoundBuffer* bounce_player_buffer, 
+                sf::SoundBuffer* bounce_wall_buffer, 
+                sf::SoundBuffer* point_buffer);
   void wallCollision();
 
  private:
-  enum BallSounds {
-    kBounce,
-    kDestroy,
-    kPoint
-  };
   float angle_ = 0.f;
   sf::CircleShape ball_;
-  sf::Sound bounce_sound_;
+  sf::Sound bounce_player_sound_;
+  sf::Sound bounce_wall_sound_;
+  sf::Sound point_sound_;
   float radius_ = 10.f;
   float speed_ = 400.f;
 };

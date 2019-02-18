@@ -49,7 +49,7 @@ void Ball::playerCollision(Player p1, Player p2) {
     else 
       angle_ = kPi - angle_ - (std::rand() % 20) * kPi / 180; 
     // seems that setOrigin isn't working here (r * 2)
-    shape_.setPosition(p2.getPosition().x - radius_ * 2 - p2.getSize().x / 2 - 0.1f, shape_.getPosition().y);
+    shape_.setPosition(p2.getPosition().x - radius_ - p2.getSize().x / 2 - 0.1f, shape_.getPosition().y);
   }
 }
 
@@ -79,7 +79,7 @@ void Ball::setSound(sf::SoundBuffer* bounce_player_buffer,
 
 void Ball::wallCollision() {
   if (shape_.getPosition().y < radius_ 
-    || shape_.getPosition().y + radius_ > kScreenHeight) {
+    || shape_.getPosition().y > kScreenHeight - radius_) {
       angle_ = -angle_;
       playSound(kBounceWall);
     }    

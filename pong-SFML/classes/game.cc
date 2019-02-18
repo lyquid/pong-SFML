@@ -96,7 +96,7 @@ bool Game::isRunning() {
 void Game::render() {
   window_.clear();
   window_.draw(score_text_);
-  window_.draw(angle_text_);
+  // window_.draw(angle_text_);
   window_.draw(ball_.getShape());
   window_.draw(player1_.getShape());
   window_.draw(player2_.getShape());

@@ -19,8 +19,8 @@ class Ball {
   Ball() {
     shape_.setRadius(radius_);
     shape_.setFillColor(sf::Color::White);
-    shape_.setOrigin(radius_ / 2, radius_ / 2);
-    shape_.setPosition(kScreenWidth / 2, kScreenHeight / 2);
+    shape_.setOrigin(radius_, radius_);
+    shape_.setPosition(kScreenWidth / 2.f, kScreenHeight / 2.f);
     do {
       angle_ = (std::rand() % 360) * 2 * kPi / 360;
     } while (std::abs(std::cos(angle_)) < 0.7f);

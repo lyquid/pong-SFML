@@ -8,7 +8,7 @@ void Game::handleEvents() {
   while (window_.pollEvent(event_)) {
     switch (event_.type) {
       case sf::Event::Closed: 
-        running_ = false;
+        quit_ = true;
         break;
       case sf::Event::KeyPressed: {
         switch (event_.key.code) {
@@ -28,7 +28,7 @@ void Game::handleEvents() {
               in_menu_ = true;
             }
             else { // in menu
-              running_ = false;
+              quit_ = true;
             }
             break;
           case sf::Keyboard::Space:
@@ -74,8 +74,6 @@ void Game::init() {
   }
   // put players in place
   resetPlayersAndPositions();
-  // activate running flag
-  running_ = true;
 }
 
 void Game::initSound() {
@@ -91,8 +89,8 @@ bool Game::isPaused() {
   return paused_;
 }
 
-bool Game::isRunning() {
-  return running_;
+bool Game::quit() {
+  return quit_;
 }
 
 void Game::render() {

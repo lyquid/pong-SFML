@@ -8,11 +8,12 @@ int main(int argc, char* argv[]) {
   game = new Game();
   game->init();
 
-  while (game->isRunning()) {
+  while (!game->quit()) {
     game->handleEvents();
     game->update();
     game->render();
   }
+  
   game->clean();
   delete game;
   return EXIT_SUCCESS;

@@ -12,13 +12,18 @@
 
 class Game {
  public:
-  Game() {}
+  Game() {
+    in_menu_ = true;
+    paused_ = false;
+    quit_ = false;
+    title_ = kAppName + " - v" + kAppVersion;
+  }
   ~Game() {}
   void clean();
   void handleEvents();
   void init();
   bool isPaused();
-  bool isRunning();
+  bool quit();
   void render();
   void update();
 
@@ -37,15 +42,15 @@ class Game {
   sf::Clock clock_;
   sf::Event event_;
   sf::Font font_;
-  bool in_menu_ = true;
+  bool in_menu_;
   Menu menu_ = Menu(&font_); 
-  bool paused_ = false;
+  bool paused_;
   sf::Text pause_text_;
   Player player1_ = Player("player1", 1);
   Player player2_ = Player("player2", 2);
-  bool running_ = false;
+  bool quit_;
   sf::Text score_text_;
-  sf::String title_ = kAppName + " - v" + kAppVersion;
+  sf::String title_;
   sf::RenderWindow window_;
 };
 

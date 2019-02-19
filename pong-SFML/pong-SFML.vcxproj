@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="classes\ball.cc" />
     <ClCompile Include="classes\game.cc" />
+    <ClCompile Include="classes\menu.cc" />
     <ClCompile Include="classes\player.cc" />
     <ClCompile Include="main.cc" />
   </ItemGroup>
@@ -140,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="classes\ball.h" />
     <ClInclude Include="classes\game.h" />
+    <ClInclude Include="classes\menu.h" />
     <ClInclude Include="classes\player.h" />
     <ClInclude Include="config.h" />
   </ItemGroup>

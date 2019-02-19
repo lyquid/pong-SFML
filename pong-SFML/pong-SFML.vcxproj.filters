@@ -27,6 +27,9 @@
     <ClCompile Include="classes\player.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="classes\menu.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Media Include="assets\ping_pong_8bit_beeep.wav">
@@ -50,6 +53,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="classes\player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="classes\menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

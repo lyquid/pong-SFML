@@ -1,12 +1,5 @@
 #include "game.h"
 
-void Game::centerTextOrigin(sf::Text* text) {
-  text->setOrigin(
-    (text->getLocalBounds().left + text->getLocalBounds().width) / 2.f,
-    (text->getLocalBounds().top + text->getLocalBounds().height) / 2.f
-  );
-}
-
 void Game::clean() {
   window_.close();
 }
@@ -17,15 +10,30 @@ void Game::handleEvents() {
       case sf::Event::Closed: 
         running_ = false;
         break;
-
       case sf::Event::KeyPressed: {
         switch (event_.key.code) {
-          case sf::Keyboard::Escape:
-            running_ = false;
+          case sf::Keyboard::Num1:  
+            // 1p vs machine
+            if (in_menu_) {
+              in_menu_ = false;
+              resetPlayersAndPositions();
+              ball_ = Ball();
+            }
             break;
-
+          case sf::Keyboard::Escape:
+            if (paused_) {
+              in_menu_ = true;
+              paused_ = false;
+            } else if (!in_menu_) {
+              in_menu_ = true;
+            }
+            else { // in menu
+              running_ = false;
+            }
+            break;
           case sf::Keyboard::Space:
-            paused_ = !paused_;
+            if (!in_menu_)
+              paused_ = !paused_;
             break;
           
           default:
@@ -52,20 +60,20 @@ void Game::init() {
   // font for texts
   if (!font_.loadFromFile("assets/AtariClassic-Regular.ttf")) {
     exit(EXIT_FAILURE);
-  } else {
+  } else { 
     // pause text
-    initText(&pause_text_, 15);
+    Menu::initText(&font_, &pause_text_, 15);
     pause_text_.setString("Paused. Press space to resume.");
-    centerTextOrigin(&pause_text_);
+    Menu::centerTextOrigin(&pause_text_);
     pause_text_.setPosition(sf::Vector2f(kScreenWidth / 2, kScreenHeight / 2));
     // score text
-    initText(&score_text_, 15);
+    Menu::initText(&font_, &score_text_, 15);
     updateScoreText();
     // angle text
-    initText(&angle_text_, 15);
+    Menu::initText(&font_, &angle_text_, 15);
   }
   // put players in place
-  resetPlayersPositions();
+  resetPlayersAndPositions();
   // activate running flag
   running_ = true;
 }
@@ -79,12 +87,6 @@ void Game::initSound() {
   ball_.setSound(&ball_bounce_player_buffer_, &ball_bounce_wall_buffer_, &ball_point_buffer_);
 }
 
-void Game::initText(sf::Text* text, int size) {
-  text->setFont(font_);
-  text->setCharacterSize(size);
-  text->setFillColor(sf::Color::White);
-}
-
 bool Game::isPaused() {
   return paused_;
 }
@@ -95,23 +97,31 @@ bool Game::isRunning() {
 
 void Game::render() {
   window_.clear();
-  window_.draw(score_text_);
-  // window_.draw(angle_text_);
-  window_.draw(ball_.getShape());
-  window_.draw(player1_.getShape());
-  window_.draw(player2_.getShape());
-  if (paused_) 
-    window_.draw(pause_text_);
+  if (in_menu_) {
+    menu_.draw(&window_);
+  } else {
+    window_.draw(score_text_);
+    // window_.draw(angle_text_);
+    window_.draw(ball_.getShape());
+    window_.draw(player1_.getShape());
+    window_.draw(player2_.getShape());
+    if (paused_) 
+      window_.draw(pause_text_);
+  }
   // display the updated frame
   window_.display();
 }
 
-void Game::resetPlayersPositions() {
+void Game::resetPlayersAndPositions() {
+  player1_.~Player();
+  player1_ = Player("player1", 1);
   player1_.setPosition(
     sf::Vector2f(
       (kScreenWidth * 0.05) - (player1_.getSize().x / 2), 
       (kScreenHeight / 2) - (player1_.getSize().y / 2))
   );
+  player2_.~Player();
+  player2_ = Player("player2", 2);
   player2_.setPosition(
     sf::Vector2f(
       (kScreenWidth * 0.95) - (player2_.getSize().x / 2), 
@@ -127,40 +137,42 @@ template <typename T> std::string Game::toString(T arg) {
 
 void Game::update() {
   float delta_time = clock_.restart().asSeconds();
-  if (!paused_) {
-    // ball movement
-    ball_.move(delta_time);
-    if (ball_.exitLeft()) {
-      ball_.playSound(kPoint); 
-      player2_.incrementScore();
-      ball_ = Ball();
-    } 
-    if (ball_.exitRight()) {
-      ball_.playSound(kPoint);
-      player1_.incrementScore();
-      ball_ = Ball();
+  if (!in_menu_) {
+    if (!paused_) {
+      // ball movement
+      ball_.move(delta_time);
+      if (ball_.exitLeft()) {
+        ball_.playSound(kPoint); 
+        player2_.incrementScore();
+        ball_ = Ball();
+      } 
+      if (ball_.exitRight()) {
+        ball_.playSound(kPoint);
+        player1_.incrementScore();
+        ball_ = Ball();
+      }
+      updateScoreText();
+      // ball collisions
+      ball_.wallCollision();
+      ball_.playerCollision(player1_, player2_);
+      updateAngleText();
+      // player1
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
+          && player1_.getPosition().y > player1_.getSize().y / 2)
+        player1_.moveUp(delta_time);
+
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
+          && player1_.getPosition().y < kScreenHeight - (player1_.getSize().y / 2))
+        player1_.moveDown(delta_time);
+      // player2
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
+          && player2_.getPosition().y > player2_.getSize().y / 2)
+        player2_.moveUp(delta_time);
+
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
+          && player2_.getPosition().y < kScreenHeight - (player2_.getSize().y / 2))
+        player2_.moveDown(delta_time);
     }
-    updateScoreText();
-    // ball collisions
-    ball_.wallCollision();
-    ball_.playerCollision(player1_, player2_);
-    updateAngleText();
-    // player1
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
-        && player1_.getPosition().y > player1_.getSize().y / 2)
-      player1_.moveUp(delta_time);
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
-        && player1_.getPosition().y < kScreenHeight - (player1_.getSize().y / 2))
-      player1_.moveDown(delta_time);
-    // player2
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
-        && player2_.getPosition().y > player2_.getSize().y / 2)
-      player2_.moveUp(delta_time);
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-        && player2_.getPosition().y < kScreenHeight - (player2_.getSize().y / 2))
-      player2_.moveDown(delta_time);
   }
 }
 
@@ -176,6 +188,6 @@ void Game::updateScoreText() {
     + " - SCORE - " 
     + toString<int>(player2_.getScore())
   );
-  centerTextOrigin(&score_text_);
+  Menu::centerTextOrigin(&score_text_);
   score_text_.setPosition(kScreenWidth / 2, 8);
 }

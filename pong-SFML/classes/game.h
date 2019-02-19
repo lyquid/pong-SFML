@@ -7,6 +7,7 @@
 
 #include "ball.h"
 #include "../config.h"
+#include "menu.h"
 #include "player.h"
 
 class Game {
@@ -22,10 +23,8 @@ class Game {
   void update();
 
  private:
-  void centerTextOrigin(sf::Text* text);
   void initSound();
-  void initText(sf::Text* text, int size);
-  void resetPlayersPositions();
+  void resetPlayersAndPositions();
   template <typename T> std::string toString(T arg);
   void updateAngleText();
   void updateScoreText();
@@ -38,6 +37,8 @@ class Game {
   sf::Clock clock_;
   sf::Event event_;
   sf::Font font_;
+  bool in_menu_ = true;
+  Menu menu_ = Menu(&font_); 
   bool paused_ = false;
   sf::Text pause_text_;
   Player player1_ = Player("player1", 1);

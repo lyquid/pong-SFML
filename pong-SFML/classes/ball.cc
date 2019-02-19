@@ -40,7 +40,6 @@ void Ball::playerCollision(Player p1, Player p2) {
       angle_ = kPi - angle_ - (std::rand() % 20) * kPi / 180; 
 
     shape_.setPosition(p1.getPosition().x + radius_ + p1.getSize().x / 2 + 0.1f, shape_.getPosition().y);
-
     // player2 collision check
   } else if (ball_bb.intersects(p2_bb)) {
     playSound(kBouncePlayer);

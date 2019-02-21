@@ -11,33 +11,36 @@ void Game::handleEvents() {
         quit_ = true;
         break;
       case sf::Event::KeyPressed: {
-        switch (event_.key.code) {
-          case sf::Keyboard::Num1:  
-            // 1p vs machine
-            if (in_menu_) {
+        if (in_menu_) {
+          switch (event_.key.code) {
+            case sf::Keyboard::Num1:
               in_menu_ = false;
               resetPlayersAndPositions();
               ball_ = Ball();
-            }
-            break;
-          case sf::Keyboard::Escape:
-            if (paused_) {
-              in_menu_ = true;
-              paused_ = false;
-            } else if (!in_menu_) {
-              in_menu_ = true;
-            }
-            else { // in menu
+              break;
+            case sf::Keyboard::Num2:
+              in_menu_ = false;
+              resetPlayersAndPositions();
+              ball_ = Ball();
+              break;
+            case sf::Keyboard::Escape:
               quit_ = true;
-            }
-            break;
-          case sf::Keyboard::Space:
-            if (!in_menu_)
+              break;
+            default:
+              break;
+          }
+        } else { // not in menu
+          switch (event_.key.code) {
+            case sf::Keyboard::Escape:
+              paused_ = false;
+              in_menu_ = true;
+              break;
+            case sf::Keyboard::Space:
               paused_ = !paused_;
-            break;
-          
-          default:
-            break;
+              break;
+            default:
+              break;
+          }
         }
         break;
       }

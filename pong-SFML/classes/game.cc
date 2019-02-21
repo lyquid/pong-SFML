@@ -115,14 +115,14 @@ void Game::resetPlayersAndPositions() {
   player1_ = Player("player1", 1);
   player1_.setPosition(
     sf::Vector2f(
-      (kScreenWidth * 0.05) - (player1_.getSize().x / 2), 
+      (kScreenWidth * 0.05f) - (player1_.getSize().x / 2), 
       (kScreenHeight / 2) - (player1_.getSize().y / 2))
   );
   player2_.~Player();
   player2_ = Player("player2", 2);
   player2_.setPosition(
     sf::Vector2f(
-      (kScreenWidth * 0.95) - (player2_.getSize().x / 2), 
+      (kScreenWidth * 0.95f) - (player2_.getSize().x / 2), 
       (kScreenHeight / 2) - (player2_.getSize().y / 2))
   );
 }

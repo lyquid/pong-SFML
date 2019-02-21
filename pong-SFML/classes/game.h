@@ -42,6 +42,7 @@ class Game {
   sf::Clock clock_;
   sf::Event event_;
   sf::Font font_;
+  int game_mode_;
   bool in_menu_;
   Menu menu_ = Menu(&font_); 
   bool paused_;

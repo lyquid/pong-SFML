@@ -14,11 +14,13 @@ void Game::handleEvents() {
         if (in_menu_) {
           switch (event_.key.code) {
             case sf::Keyboard::Num1:
+              game_mode_ = k1Player;
               in_menu_ = false;
               resetPlayersAndPositions();
               ball_ = Ball();
               break;
             case sf::Keyboard::Num2:
+              game_mode_ = k2Players;
               in_menu_ = false;
               resetPlayersAndPositions();
               ball_ = Ball();
@@ -166,13 +168,15 @@ void Game::update() {
           && player1_.getPosition().y < kScreenHeight - (player1_.getSize().y / 2))
         player1_.moveDown(delta_time);
       // player2
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
-          && player2_.getPosition().y > player2_.getSize().y / 2)
-        player2_.moveUp(delta_time);
+      if (game_mode_ == k2Players) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
+            && player2_.getPosition().y > player2_.getSize().y / 2)
+          player2_.moveUp(delta_time);
 
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-          && player2_.getPosition().y < kScreenHeight - (player2_.getSize().y / 2))
-        player2_.moveDown(delta_time);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
+            && player2_.getPosition().y < kScreenHeight - (player2_.getSize().y / 2))
+          player2_.moveDown(delta_time);
+      }
     }
   }
 }

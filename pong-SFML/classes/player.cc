@@ -17,21 +17,15 @@ void Player::computerPlay(float ball_y, float delta_time) {
     // ball is down
     if (player_y < ball_y && checkBottomBound()) {
       float modifier = rand() % 201;
+      moving_ = true;
       moveDown(delta_time, modifier);
     // ball is up
     } else if (player_y > ball_y && checkUpperBound()){ 
       float modifier = rand() % 201;
+      moving_ = true;
       moveUp(delta_time, modifier);
     }
   }
-}
-
-sf::String Player::getName() {
-  return name_;
-}
-
-int Player::getNumber() {
-  return number_;
 }
 
 sf::Vector2f Player::getPosition() {
@@ -58,12 +52,20 @@ void Player::incrementScoreBy(int increment) {
   score_ += increment;
 }
 
+bool Player::isMoving() {
+  return moving_;
+}
+
 void Player::moveDown(float delta_time, float modifier) {
   shape_.move(0.f, speed_ * delta_time);
 }
 
 void Player::moveUp(float delta_time, float modifier) {
   shape_.move(0.f, -speed_ * delta_time);
+}
+
+void Player::setMoving(bool status) {
+  moving_ = status;
 }
 
 void Player::setPosition(sf::Vector2f position) {

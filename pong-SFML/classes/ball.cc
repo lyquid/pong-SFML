@@ -1,7 +1,11 @@
 #include "ball.h"
 
-void Ball::bounce() {
-  angle_ = -angle_;
+void Ball::accelerate() {
+  boost_ += 0.9 * speed_;
+}
+
+void Ball::decelerate() {
+  (boost_ > 0) ? boost_ -= boost_ * 0.003 : boost_ = 0;
 }
 
 bool Ball::exitLeft() {
@@ -21,7 +25,7 @@ sf::CircleShape Ball::getShape() {
 }
 
 void Ball::move(float delta_time) {
-  float factor = speed_ * delta_time;
+  float factor = (speed_ + boost_) * delta_time;
   shape_.move(std::cos(angle_) * factor, std::sin(angle_) * factor);
 }
 
@@ -34,6 +38,8 @@ void Ball::playerCollision(Player p1, Player p2) {
   // player1 collision check
   if (ball_bb.intersects(p1_bb)) {
     playSound(kBouncePlayer);
+    if (p1.isMoving()) 
+      accelerate();
     if (shape_.getPosition().y > p1.getPosition().y) 
       angle_ = kPi - angle_ + (std::rand() % 20) * kPi / 180;   
     else 
@@ -43,6 +49,8 @@ void Ball::playerCollision(Player p1, Player p2) {
     // player2 collision check
   } else if (ball_bb.intersects(p2_bb)) {
     playSound(kBouncePlayer);
+    if (p2.isMoving()) 
+      accelerate();
     if (shape_.getPosition().y > p2.getPosition().y) 
       angle_ = kPi - angle_ + (std::rand() % 20) * kPi / 180;   
     else 

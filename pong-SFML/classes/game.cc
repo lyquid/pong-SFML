@@ -142,11 +142,14 @@ void Game::update() {
   float delta_time = clock_.restart().asSeconds();
   if (!in_menu_) {
     if (!paused_) {
-      // ball movement
+      // ball movement logic
+      ball_.decelerate();
       ball_.move(delta_time);
       if (ball_.exitLeft()) {
         ball_.playSound(kPoint); 
         player2_.incrementScore();
+        // todo:  create a ball.resetShape() method
+        //        so we can put all ball sound in ball class directly
         ball_ = Ball();
       } 
       if (ball_.exitRight()) {
@@ -155,21 +158,32 @@ void Game::update() {
         ball_ = Ball();
       }
       updateScoreText();
-      // ball collisions
+      // ball collisions 
       ball_.wallCollision();
       ball_.playerCollision(player1_, player2_);
       updateAngleText();
+      // players' movement logic
+      player1_.setMoving(false);
+      player2_.setMoving(false);
       // player1
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && player1_.checkUpperBound())
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && player1_.checkUpperBound()) {
+        player1_.setMoving(true);
         player1_.moveUp(delta_time);
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && player1_.checkBottomBound())
+      }
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && player1_.checkBottomBound()) {
+        player1_.setMoving(true);
         player1_.moveDown(delta_time);
-      // player2
+      }
+      // player2 (if in 2p mode)
       if (game_mode_ == k2Players) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && player2_.checkUpperBound())
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && player2_.checkUpperBound()) {
+          player2_.setMoving(true);
           player2_.moveUp(delta_time);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && player2_.checkBottomBound())
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && player2_.checkBottomBound()) {
+          player2_.setMoving(true);
           player2_.moveDown(delta_time);
+        }
       } else if (game_mode_ == k1Player) {
         // IA
         player2_.computerPlay(ball_.getShape().getPosition().y, delta_time);
@@ -183,8 +197,6 @@ void Game::updateAngleText() {
 }
 
 void Game::updateScoreText() {
-  // todo: make score like
-  // 00001 -> 00120
   score_text_.setString(
     toString<int>(player1_.getScore()) 
     + " - SCORE - " 

@@ -8,6 +8,7 @@
 class Player {
  public:
   Player(sf::String name, int number) {
+    moving_ = false;
     name_ = name;
     number_ = number;
     score_ = 0;
@@ -20,19 +21,20 @@ class Player {
   bool checkBottomBound();
   bool checkUpperBound();
   void computerPlay(float ball_y, float delta_time);
-  sf::String getName();
-  int getNumber();
   sf::Vector2f getPosition();
   int getScore();
   sf::RectangleShape getShape();
   sf::Vector2f getSize();
   void incrementScore();
   void incrementScoreBy(int increment);
+  bool isMoving();
   void moveDown(float delta_time, float modifier = 0.f);
   void moveUp(float delta_time, float modifier = 0.f);
+  void setMoving(bool status);
   void setPosition(sf::Vector2f position);
 
  private: 
+  bool moving_;
   sf::String name_;
   int number_;
   sf::Vector2f position_;

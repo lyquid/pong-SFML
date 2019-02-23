@@ -17,6 +17,7 @@ enum BallSounds {
 class Ball {
  public:
   Ball() {
+    boost_ = 0.f;
     radius_ = 10.f;
     speed_ = 400.f;
     shape_.setRadius(radius_);
@@ -28,7 +29,7 @@ class Ball {
     } while (std::abs(std::cos(angle_)) < 0.7f);
   }
   ~Ball() {}
-  void bounce();
+  void decelerate();
   bool exitLeft();
   bool exitRight();
   float getAngle();
@@ -42,13 +43,16 @@ class Ball {
   void wallCollision();
 
  private:
+  void accelerate();
   float angle_;
+  float boost_;
+  float radius_;
   sf::CircleShape shape_;
+  float speed_;
+  // ball sounds
   sf::Sound bounce_player_sound_;
   sf::Sound bounce_wall_sound_;
   sf::Sound point_sound_;
-  float radius_;
-  float speed_;
 };
 
 #endif  // PONG_SFML_CLASSES_BALL_H_

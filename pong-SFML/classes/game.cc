@@ -160,22 +160,19 @@ void Game::update() {
       ball_.playerCollision(player1_, player2_);
       updateAngleText();
       // player1
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)
-          && player1_.getPosition().y > player1_.getSize().y / 2)
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && player1_.checkUpperBound())
         player1_.moveUp(delta_time);
-
-      if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)
-          && player1_.getPosition().y < kScreenHeight - (player1_.getSize().y / 2))
+      if (sf::Keyboard::isKeyPressed(sf::Keyboard::S) && player1_.checkBottomBound())
         player1_.moveDown(delta_time);
       // player2
       if (game_mode_ == k2Players) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)
-            && player2_.getPosition().y > player2_.getSize().y / 2)
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && player2_.checkUpperBound())
           player2_.moveUp(delta_time);
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)
-            && player2_.getPosition().y < kScreenHeight - (player2_.getSize().y / 2))
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && player2_.checkBottomBound())
           player2_.moveDown(delta_time);
+      } else if (game_mode_ == k1Player) {
+        // IA
+        player2_.computerPlay(ball_.getShape().getPosition().y, delta_time);
       }
     }
   }

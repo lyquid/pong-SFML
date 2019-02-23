@@ -17,7 +17,9 @@ class Player {
     shape_.setOrigin(size_ / 2.f);
   }
   ~Player() {}
-
+  bool checkBottomBound();
+  bool checkUpperBound();
+  void computerPlay(float ball_y, float delta_time);
   sf::String getName();
   int getNumber();
   sf::Vector2f getPosition();
@@ -26,8 +28,8 @@ class Player {
   sf::Vector2f getSize();
   void incrementScore();
   void incrementScoreBy(int increment);
-  void moveDown(float delta_time);
-  void moveUp(float delta_time);
+  void moveDown(float delta_time, float modifier = 0.f);
+  void moveUp(float delta_time, float modifier = 0.f);
   void setPosition(sf::Vector2f position);
 
  private: 

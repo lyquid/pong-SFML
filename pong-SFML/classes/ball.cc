@@ -77,9 +77,15 @@ void Ball::setSound(sf::SoundBuffer* bounce_player_buffer,
 }
 
 void Ball::wallCollision() {
-  if (shape_.getPosition().y < radius_ 
-    || shape_.getPosition().y > kScreenHeight - radius_) {
-      angle_ = -angle_;
-      playSound(kBounceWall);
-    }    
+  // up collision
+  if (shape_.getPosition().y < radius_ ) {
+    shape_.setPosition(shape_.getPosition().x, radius_);
+    angle_ = -angle_;
+    playSound(kBounceWall);
+  // down collision  
+  } else if (shape_.getPosition().y > kScreenHeight - radius_) {
+    shape_.setPosition(shape_.getPosition().x, kScreenHeight - radius_);
+    angle_ = -angle_;
+    playSound(kBounceWall);
+  }
 }

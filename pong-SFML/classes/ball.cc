@@ -76,13 +76,21 @@ void Ball::playSound(int sound) {
   }
 }
 
-void Ball::setSound(sf::SoundBuffer* bounce_player_buffer, 
+void Ball::resetShape() {
+  boost_ = 0.f;
+  shape_.setPosition(kScreenWidth / 2.f, kScreenHeight / 2.f);
+  do {
+    angle_ = (std::rand() % 360) * 2 * kPi / 360;
+  } while (std::abs(std::cos(angle_)) < 0.7f);
+}
+
+void Ball::setSounds(sf::SoundBuffer* bounce_player_buffer, 
                     sf::SoundBuffer* bounce_wall_buffer, 
                     sf::SoundBuffer* point_buffer) {
   bounce_player_sound_.setBuffer(*bounce_player_buffer);
   bounce_wall_sound_.setBuffer(*bounce_wall_buffer);
   point_sound_.setBuffer(*point_buffer);
-}
+} 
 
 void Ball::wallCollision() {
   // up collision

@@ -2,7 +2,6 @@
 #define PONG_SFML_CLASSES_GAME_H_
 
 #include <sstream>
-#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
 #include "ball.h"

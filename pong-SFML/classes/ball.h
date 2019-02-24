@@ -23,10 +23,7 @@ class Ball {
     shape_.setRadius(radius_);
     shape_.setFillColor(sf::Color::White);
     shape_.setOrigin(radius_, radius_);
-    shape_.setPosition(kScreenWidth / 2.f, kScreenHeight / 2.f);
-    do {
-      angle_ = (std::rand() % 360) * 2 * kPi / 360;
-    } while (std::abs(std::cos(angle_)) < 0.7f);
+    resetShape();
   }
   ~Ball() {}
   void decelerate();
@@ -37,13 +34,15 @@ class Ball {
   void move(float delta_time);
   void playerCollision(Player p1, Player p2);
   void playSound(int sound);
-  void setSound(sf::SoundBuffer* bounce_player_buffer, 
+  void resetShape();
+  void setSounds(sf::SoundBuffer* bounce_player_buffer, 
                 sf::SoundBuffer* bounce_wall_buffer, 
-                sf::SoundBuffer* point_buffer);
+                sf::SoundBuffer* point_buffer); 
   void wallCollision();
 
  private:
   void accelerate();
+
   float angle_;
   float boost_;
   float radius_;

@@ -87,7 +87,7 @@ void Game::initSound() {
   || (!ball_point_buffer_.loadFromFile("assets/ping_pong_8bit_peeeeeep.wav"))) {
     exit(EXIT_FAILURE);
   }
-  ball_.setSound(&ball_bounce_player_buffer_, &ball_bounce_wall_buffer_, &ball_point_buffer_);
+  ball_.setSounds(&ball_bounce_player_buffer_, &ball_bounce_wall_buffer_, &ball_point_buffer_);
 }
 
 bool Game::isPaused() {
@@ -148,14 +148,12 @@ void Game::update() {
       if (ball_.exitLeft()) {
         ball_.playSound(kPoint); 
         player2_.incrementScore();
-        // todo:  create a ball.resetShape() method
-        //        so we can put all ball sound in ball class directly
-        ball_ = Ball();
+        ball_.resetShape();
       } 
       if (ball_.exitRight()) {
         ball_.playSound(kPoint);
         player1_.incrementScore();
-        ball_ = Ball();
+        ball_.resetShape();
       }
       updateScoreText();
       // ball collisions 

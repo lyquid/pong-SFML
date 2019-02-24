@@ -36,8 +36,8 @@ class Ball {
   void playSound(int sound);
   void resetShape();
   void setSounds(sf::SoundBuffer* bounce_player_buffer, 
-                sf::SoundBuffer* bounce_wall_buffer, 
-                sf::SoundBuffer* point_buffer); 
+                 sf::SoundBuffer* bounce_wall_buffer, 
+                 sf::SoundBuffer* point_buffer); 
   void wallCollision();
 
  private:

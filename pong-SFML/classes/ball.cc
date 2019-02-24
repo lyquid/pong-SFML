@@ -85,8 +85,8 @@ void Ball::resetShape() {
 }
 
 void Ball::setSounds(sf::SoundBuffer* bounce_player_buffer, 
-                    sf::SoundBuffer* bounce_wall_buffer, 
-                    sf::SoundBuffer* point_buffer) {
+                     sf::SoundBuffer* bounce_wall_buffer, 
+                     sf::SoundBuffer* point_buffer) {
   bounce_player_sound_.setBuffer(*bounce_player_buffer);
   bounce_wall_sound_.setBuffer(*bounce_wall_buffer);
   point_sound_.setBuffer(*point_buffer);

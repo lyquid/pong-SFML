@@ -21,6 +21,7 @@ class Player {
   bool checkBottomBound();
   bool checkUpperBound();
   void computerPlay(float ball_y, float delta_time);
+  void computerPlayChaos(float ball_y, float delta_time);
   sf::Vector2f getPosition();
   int getScore();
   sf::RectangleShape getShape();

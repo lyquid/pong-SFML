@@ -28,6 +28,21 @@ void Player::computerPlay(float ball_y, float delta_time) {
   }
 }
 
+void Player::computerPlayChaos(float ball_y, float delta_time) {
+  float player_y = getPosition().y;
+  if (abs(player_y - ball_y) > getSize().y / 2.5) {
+    // ball is down
+    if (player_y < ball_y && checkBottomBound()) {
+      moving_ = true;
+      moveDown(delta_time);
+    // ball is up
+    } else if (player_y > ball_y && checkUpperBound()){ 
+      moving_ = true;
+      moveUp(delta_time);
+    }
+  }
+}
+
 sf::Vector2f Player::getPosition() {
   return shape_.getPosition();
 }

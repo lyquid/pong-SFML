@@ -3,7 +3,9 @@
 
 enum GameModes {
   k1Player,
-  k2Players
+  k2Players,
+  k1PChaos,
+  k2PChaos
 };
 
 const sf::String kAppName = "SFML Pong";

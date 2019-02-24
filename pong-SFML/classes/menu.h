@@ -5,7 +5,7 @@
 
 #include "../config.h"
 
-const int kNumOptions = 3;
+const int kNumOptions = 4;
 
 class Menu {
  public:

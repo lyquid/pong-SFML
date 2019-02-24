@@ -21,16 +21,19 @@ void Menu::initOptions(sf::Font* font) {
   menu_options_[1].option_key = "2";
   menu_options_[1].option_text = "2 Players....[2]";
   menu_options_[1].selected = false;
-  menu_options_[2].option_key = "ESC";
-  menu_options_[2].option_text = "Exit.......[ESC]";
+  menu_options_[2].option_key = "3";
+  menu_options_[2].option_text = "Chaos mode...[3]";
   menu_options_[2].selected = false;
+  menu_options_[3].option_key = "ESC";
+  menu_options_[3].option_text = "Exit.......[ESC]";
+  menu_options_[3].selected = false;
 
   for (int i = 0; i < kNumOptions; ++i) {
     // TODO: sf::String finalString = "";
     initText(font, &options_[i], 20);
     options_[i].setString(menu_options_[i].option_text);
     centerTextOrigin(&options_[i]);
-    options_[i].setPosition(sf::Vector2f(kScreenWidth / 4, (kScreenHeight / 2) + i * 30));
+    options_[i].setPosition(sf::Vector2f(kScreenWidth / 4, (kScreenHeight / 2) + i * 32));
   }
 } 
 

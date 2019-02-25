@@ -12,6 +12,7 @@
 class Game {
  public:
   Game() {
+    game_mode_ = kGMNotSet;
     in_menu_ = true;
     paused_ = false;
     quit_ = false;

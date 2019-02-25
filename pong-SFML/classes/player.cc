@@ -67,6 +67,10 @@ void Player::incrementScoreBy(int increment) {
   score_ += increment;
 }
 
+void Player::initChaosConfig() {
+  speed_ = 640.f;
+}
+
 bool Player::isMoving() {
   return moving_;
 }

@@ -1,11 +1,26 @@
 #include "ball.h"
 
 void Ball::accelerate() {
-  boost_ += 0.9 * speed_;
+  boost_ += 0.9f * speed_;
+  if (game_mode_ == kGM1PChaos || game_mode_ == kGM2PChaos) {
+    heatUp();
+  }
 }
 
 void Ball::decelerate() {
-  (boost_ > 0) ? boost_ -= boost_ * 0.003 : boost_ = 0;
+  switch (game_mode_) {
+    case kGM1Player:
+    case kGM2Players:
+      (boost_ > 0) ? boost_ -= boost_ * 0.003f : boost_ = 0;
+      break;
+    case kGM1PChaos:
+    case kGM2PChaos:
+      (boost_ > 0) ? boost_ -= boost_ * 0.002f : boost_ = 0;
+      heatDown();
+      break;
+    default:
+      break;
+  }
 }
 
 bool Ball::exitLeft() {
@@ -22,6 +37,27 @@ float Ball::getAngle() {
 
 sf::CircleShape Ball::getShape() {
   return shape_;
+}
+
+void Ball::heatDown() {
+  if (heat_clock_.getElapsedTime().asMilliseconds() > 500) {
+    heat_clock_.restart();
+    int heat_ratio = 2;
+    if (color_.g <= 255 - heat_ratio && color_.b <= 255 - heat_ratio) {
+      color_.g += heat_ratio;
+      color_.b += heat_ratio; 
+    }
+    shape_.setFillColor(color_);
+  }
+}
+
+void Ball::heatUp() {
+  int heat_ratio = 20;
+  if (color_.g >= heat_ratio && color_.b >= heat_ratio) {
+    color_.g -= heat_ratio;
+    color_.b -= heat_ratio; 
+  }
+  shape_.setFillColor(color_);
 }
 
 void Ball::move(float delta_time) {
@@ -77,11 +113,16 @@ void Ball::playSound(int sound) {
 }
 
 void Ball::resetShape() {
+  color_ = sf::Color::White;
   boost_ = 0.f;
   shape_.setPosition(kScreenWidth / 2.f, kScreenHeight / 2.f);
   do {
     angle_ = (std::rand() % 360) * 2 * kPi / 360;
   } while (std::abs(std::cos(angle_)) < 0.7f);
+}
+
+void Ball::setGameMode(int game_mode) {
+  game_mode_ = game_mode;
 }
 
 void Ball::setSounds(sf::SoundBuffer* bounce_player_buffer, 

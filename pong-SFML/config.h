@@ -2,10 +2,12 @@
 #define PONG_SFML_CONFIG_H_
 
 enum GameModes {
-  k1Player,
-  k2Players,
-  k1PChaos,
-  k2PChaos
+  kGMNotSet,
+  kGM1Player,
+  kGM2Players,
+  kGM1PChaos,
+  kGM2PChaos,
+  kGMCount
 };
 
 const sf::String kAppName = "SFML Pong";

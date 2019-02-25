@@ -18,10 +18,12 @@ class Ball {
  public:
   Ball() {
     boost_ = 0.f;
+    game_mode_ = kGMNotSet;
     radius_ = 10.f;
     speed_ = 400.f;
+    color_ = sf::Color::White;
     shape_.setRadius(radius_);
-    shape_.setFillColor(sf::Color::White);
+    shape_.setFillColor(color_);
     shape_.setOrigin(radius_, radius_);
     resetShape();
   }
@@ -35,6 +37,7 @@ class Ball {
   void playerCollision(Player p1, Player p2);
   void playSound(int sound);
   void resetShape();
+  void setGameMode(int game_mode);
   void setSounds(sf::SoundBuffer* bounce_player_buffer, 
                  sf::SoundBuffer* bounce_wall_buffer, 
                  sf::SoundBuffer* point_buffer); 
@@ -42,9 +45,14 @@ class Ball {
 
  private:
   void accelerate();
+  void heatDown();
+  void heatUp();
 
   float angle_;
   float boost_;
+  sf::Color color_;
+  sf::Clock heat_clock_;
+  int game_mode_;
   float radius_;
   sf::CircleShape shape_;
   float speed_;

@@ -28,6 +28,7 @@ class Player {
   sf::Vector2f getSize();
   void incrementScore();
   void incrementScoreBy(int increment);
+  void initChaosConfig();
   bool isMoving();
   void moveDown(float delta_time, float modifier = 0.f);
   void moveUp(float delta_time, float modifier = 0.f);

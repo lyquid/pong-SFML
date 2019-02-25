@@ -14,21 +14,26 @@ void Game::handleEvents() {
         if (in_menu_) {
           switch (event_.key.code) {
             case sf::Keyboard::Num1:
-              game_mode_ = k1Player;
+              game_mode_ = kGM1Player;
               in_menu_ = false;
               resetPlayersAndPositions();
+              ball_.setGameMode(kGM1Player);
               ball_.resetShape();
               break;
             case sf::Keyboard::Num2:
-              game_mode_ = k2Players;
+              game_mode_ = kGM2Players;
               in_menu_ = false;
               resetPlayersAndPositions();
+              ball_.setGameMode(kGM2Players);
               ball_.resetShape();
               break;
             case sf::Keyboard::Num3:
-              game_mode_ = k1PChaos;
+              game_mode_ = kGM1PChaos;
               in_menu_ = false;
               resetPlayersAndPositions();
+              player1_.initChaosConfig();
+              player2_.initChaosConfig();
+              ball_.setGameMode(kGM1PChaos);
               ball_.resetShape();
               break;
             case sf::Keyboard::Escape:
@@ -42,6 +47,8 @@ void Game::handleEvents() {
             case sf::Keyboard::Escape:
               paused_ = false;
               in_menu_ = true;
+              game_mode_ = kGMNotSet;
+              ball_.setGameMode(kGMNotSet);
               break;
             case sf::Keyboard::Space:
               paused_ = !paused_;
@@ -178,8 +185,9 @@ void Game::update() {
         player1_.setMoving(true);
         player1_.moveDown(delta_time);
       }
+      // player2
       switch (game_mode_) {
-        case k2Players: // 2 players mode
+        case kGM2Players: // 2 players mode
           if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && player2_.checkUpperBound()) {
             player2_.setMoving(true);
             player2_.moveUp(delta_time);
@@ -189,10 +197,10 @@ void Game::update() {
             player2_.moveDown(delta_time);
           }
           break;
-        case k1Player: // 1 player mode
+        case kGM1Player: // 1 player mode
           player2_.computerPlay(ball_.getShape().getPosition().y, delta_time);
           break;
-        case k1PChaos: // 1 player chaos mode
+        case kGM1PChaos: // 1 player chaos mode
           player2_.computerPlayChaos(ball_.getShape().getPosition().y, delta_time);
           break;
       } 

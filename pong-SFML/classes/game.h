@@ -46,6 +46,7 @@ class Game {
   Menu menu_ = Menu(&font_); 
   bool paused_;
   sf::Text pause_text_;
+  sf::Clock pause_text_clock_;
   Player player1_ = Player("player1", 1);
   Player player2_ = Player("player2", 2);
   bool quit_;

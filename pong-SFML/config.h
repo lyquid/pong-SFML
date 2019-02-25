@@ -11,7 +11,8 @@ enum GameModes {
 };
 
 const sf::String kAppName = "SFML Pong";
-const sf::String kAppVersion = "0.0"; 
+const sf::String kAppVersion = "0.5"; 
+const sf::String kDefaultPauseMessage = "Paused. Press space to resume.";
 const float kPi = 3.14159f;
 const int kScreenHeight = 768;
 const int kScreenWidth = 1024;

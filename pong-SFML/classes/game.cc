@@ -84,7 +84,7 @@ void Game::init() {
   } else { 
     // pause text
     Menu::initText(&font_, &pause_text_, 15);
-    pause_text_.setString("Paused. Press space to resume.");
+    pause_text_.setString(kDefaultPauseMessage);
     Menu::centerTextOrigin(&pause_text_);
     pause_text_.setPosition(sf::Vector2f(kScreenWidth / 2, kScreenHeight / 2));
     // score text
@@ -207,6 +207,16 @@ void Game::update() {
           player2_.computerPlayChaos(ball_.getShape().getPosition().y, delta_time);
           break;
       } 
+    }  else {
+      // blinking pause text
+      if (pause_text_clock_.getElapsedTime().asSeconds() > 0.5f) {
+        if(pause_text_.getString() == "") {
+          pause_text_.setString(kDefaultPauseMessage);
+        } else {
+          pause_text_.setString("");
+        }
+        pause_text_clock_.restart();
+      }
     }
   }
 }

@@ -11,7 +11,7 @@ bool Player::checkUpperBound() {
 void Player::computerPlay(float ball_y, float delta_time) {
   float player_y = getPosition().y;
   int minThreshold = getSize().y / 3;
-  int xThreshold = (getSize().y * 1.1) - minThreshold;
+  int xThreshold = (getSize().y * 1.1f) - minThreshold;
   float threshold = rand() % xThreshold + minThreshold;
   if (abs(player_y - ball_y) > threshold) {
     // ball is down

@@ -19,6 +19,7 @@ void Game::handleEvents() {
               resetPlayersAndPositions();
               ball_.setGameMode(kGM1Player);
               ball_.resetShape();
+              ball_delay_.restart();
               break;
             case sf::Keyboard::Num2:
               game_mode_ = kGM2Players;
@@ -26,6 +27,7 @@ void Game::handleEvents() {
               resetPlayersAndPositions();
               ball_.setGameMode(kGM2Players);
               ball_.resetShape();
+              ball_delay_.restart();
               break;
             case sf::Keyboard::Num3:
               game_mode_ = kGM1PChaos;
@@ -35,6 +37,7 @@ void Game::handleEvents() {
               player2_.initChaosConfig();
               ball_.setGameMode(kGM1PChaos);
               ball_.resetShape();
+              ball_delay_.restart();
               break;
             case sf::Keyboard::Escape:
               quit_ = true;
@@ -87,8 +90,6 @@ void Game::init() {
     // score text
     Menu::initText(&font_, &score_text_, 15);
     updateScoreText();
-    // angle text
-    Menu::initText(&font_, &angle_text_, 15);
   }
   // put players in place
   resetPlayersAndPositions();
@@ -117,7 +118,6 @@ void Game::render() {
     menu_.draw(&window_);
   } else {
     window_.draw(score_text_);
-    // window_.draw(angle_text_);
     window_.draw(ball_.getShape());
     window_.draw(player1_.getShape());
     window_.draw(player2_.getShape());
@@ -155,24 +155,27 @@ void Game::update() {
   float delta_time = clock_.restart().asSeconds();
   if (!in_menu_) {
     if (!paused_) {
-      // ball movement logic
-      ball_.decelerate();
-      ball_.move(delta_time);
-      if (ball_.exitLeft()) {
-        ball_.playSound(kPoint); 
-        player2_.incrementScore();
-        ball_.resetShape();
-      } 
-      if (ball_.exitRight()) {
-        ball_.playSound(kPoint);
-        player1_.incrementScore();
-        ball_.resetShape();
-      }
       updateScoreText();
-      // ball collisions 
-      ball_.wallCollision();
-      ball_.playerCollision(player1_, player2_);
-      updateAngleText();
+      // ball movement logic
+      if (ball_delay_.getElapsedTime().asSeconds() > 1.f) { // we check if 2 secs have passed since we reseted the ball's shape
+        ball_.decelerate();
+        ball_.move(delta_time);
+        if (ball_.exitLeft()) {
+          ball_.playSound(kPoint); 
+          player2_.incrementScore();
+          ball_.resetShape();
+          ball_delay_.restart();
+        } 
+        if (ball_.exitRight()) {
+          ball_.playSound(kPoint);
+          player1_.incrementScore();
+          ball_.resetShape();
+          ball_delay_.restart();
+        }
+        // ball collisions 
+        ball_.wallCollision();
+        ball_.playerCollision(player1_, player2_);
+      }
       // players' movement logic
       player1_.setMoving(false);
       player2_.setMoving(false);
@@ -206,10 +209,6 @@ void Game::update() {
       } 
     }
   }
-}
-
-void Game::updateAngleText() {
-  angle_text_.setString("ball angle: " + toString<float>(ball_.getAngle()));
 }
 
 void Game::updateScoreText() {

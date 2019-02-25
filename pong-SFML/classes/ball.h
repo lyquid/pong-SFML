@@ -31,7 +31,6 @@ class Ball {
   void decelerate();
   bool exitLeft();
   bool exitRight();
-  float getAngle();
   sf::CircleShape getShape();
   void move(float delta_time);
   void playerCollision(Player p1, Player p2);

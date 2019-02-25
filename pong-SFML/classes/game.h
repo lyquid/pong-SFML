@@ -31,11 +31,10 @@ class Game {
   void initSound();
   void resetPlayersAndPositions();
   template <typename T> std::string toString(T arg);
-  void updateAngleText();
   void updateScoreText();
 
-  sf::Text angle_text_;
   Ball ball_;
+  sf::Clock ball_delay_;
   sf::SoundBuffer ball_bounce_player_buffer_;
   sf::SoundBuffer ball_bounce_wall_buffer_;
   sf::SoundBuffer ball_point_buffer_;

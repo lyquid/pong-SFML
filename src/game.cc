@@ -7,7 +7,7 @@ void Game::clean() {
 void Game::handleEvents() {
   while (window_.pollEvent(event_)) {
     switch (event_.type) {
-      case sf::Event::Closed: 
+      case sf::Event::Closed:
         quit_ = true;
         break;
       case sf::Event::KeyPressed: {
@@ -64,15 +64,15 @@ void Game::handleEvents() {
       }
       default:
         break;
-    } 
+    }
   }
 }
 
 void Game::init() {
   // aplication window
   window_.create(
-    sf::VideoMode(kScreenWidth, kScreenHeight, 32), 
-    title_, 
+    sf::VideoMode(kScreenWidth, kScreenHeight, 32),
+    title_,
     sf::Style::Titlebar | sf::Style::Close
   );
   window_.setVerticalSyncEnabled(true);
@@ -81,7 +81,7 @@ void Game::init() {
   // font for texts
   if (!font_.loadFromFile("assets/AtariClassic-Regular.ttf")) {
     exit(EXIT_FAILURE);
-  } else { 
+  } else {
     // pause text
     Menu::initText(&font_, &pause_text_, 15);
     pause_text_.setString(kDefaultPauseMessage);
@@ -96,7 +96,7 @@ void Game::init() {
 }
 
 void Game::initSound() {
-  if (!ball_bounce_player_buffer_.loadFromFile("assets/ping_pong_8bit_beeep.wav") 
+  if (!ball_bounce_player_buffer_.loadFromFile("assets/ping_pong_8bit_beeep.wav")
   || (!ball_bounce_wall_buffer_.loadFromFile("assets/ping_pong_8bit_plop.wav"))
   || (!ball_point_buffer_.loadFromFile("assets/ping_pong_8bit_peeeeeep.wav"))) {
     exit(EXIT_FAILURE);
@@ -121,7 +121,7 @@ void Game::render() {
     window_.draw(ball_.getShape());
     window_.draw(player1_.getShape());
     window_.draw(player2_.getShape());
-    if (paused_) 
+    if (paused_)
       window_.draw(pause_text_);
   }
   // display the updated frame
@@ -133,14 +133,14 @@ void Game::resetPlayersAndPositions() {
   player1_ = Player("player1", 1);
   player1_.setPosition(
     sf::Vector2f(
-      (kScreenWidth * 0.05f) - (player1_.getSize().x / 2), 
+      (kScreenWidth * 0.05f) - (player1_.getSize().x / 2),
       (kScreenHeight / 2) - (player1_.getSize().y / 2))
   );
   player2_.~Player();
   player2_ = Player("player2", 2);
   player2_.setPosition(
     sf::Vector2f(
-      (kScreenWidth * 0.95f) - (player2_.getSize().x / 2), 
+      (kScreenWidth * 0.95f) - (player2_.getSize().x / 2),
       (kScreenHeight / 2) - (player2_.getSize().y / 2))
   );
 }
@@ -161,18 +161,18 @@ void Game::update() {
         ball_.decelerate();
         ball_.move(delta_time);
         if (ball_.exitLeft()) {
-          ball_.playSound(kPoint); 
+          ball_.playSound(kPoint);
           player2_.incrementScore();
           ball_.resetShape();
           ball_delay_.restart();
-        } 
+        }
         if (ball_.exitRight()) {
           ball_.playSound(kPoint);
           player1_.incrementScore();
           ball_.resetShape();
           ball_delay_.restart();
         }
-        // ball collisions 
+        // ball collisions
         ball_.wallCollision();
         ball_.playerCollision(player1_, player2_);
       }
@@ -206,7 +206,7 @@ void Game::update() {
         case kGM1PChaos: // 1 player chaos mode
           player2_.computerPlayChaos(ball_.getShape().getPosition().y, delta_time);
           break;
-      } 
+      }
     }  else {
       // blinking pause text
       if (pause_text_clock_.getElapsedTime().asSeconds() > 0.5f) {
@@ -223,8 +223,8 @@ void Game::update() {
 
 void Game::updateScoreText() {
   score_text_.setString(
-    toString<int>(player1_.getScore()) 
-    + " - SCORE - " 
+    toString<int>(player1_.getScore())
+    + " - SCORE - "
     + toString<int>(player2_.getScore())
   );
   Menu::centerTextOrigin(&score_text_);

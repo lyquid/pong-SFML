@@ -1,6 +1,6 @@
 # pong-SFML
 
-Pong game in SFML 2.5.1.
+Pong game in SFML.
 
 Sounds from [here](http://cs.au.dk/~dsound/DigitalAudio.dir/Greenfoot/Pong.dir/Pong.html).
 

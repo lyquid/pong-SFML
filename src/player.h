@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../config.h"
+#include "config.h"
 
 class Player {
  public:
@@ -35,7 +35,7 @@ class Player {
   void setMoving(bool status);
   void setPosition(sf::Vector2f position);
 
- private: 
+ private:
   bool moving_;
   sf::String name_;
   int number_;

@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "ball.h"
-#include "../config.h"
+#include "config.h"
 #include "menu.h"
 #include "player.h"
 
@@ -43,7 +43,7 @@ class Game {
   sf::Font font_;
   int game_mode_;
   bool in_menu_;
-  Menu menu_ = Menu(&font_); 
+  Menu menu_ = Menu(&font_);
   bool paused_;
   sf::Text pause_text_;
   sf::Clock pause_text_clock_;

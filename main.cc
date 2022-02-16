@@ -1,4 +1,4 @@
-#include "classes/game.h"
+#include "src/game.h"
 
 Game* game = NULL;
 
@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
     game->update();
     game->render();
   }
-  
+
   game->clean();
   delete game;
   return EXIT_SUCCESS;

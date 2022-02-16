@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../config.h"
+#include "config.h"
 
 const int kNumOptions = 4;
 
@@ -26,7 +26,7 @@ class Menu {
     sf::String option_text;
     bool selected;
   } menu_options_[kNumOptions];
-  sf::Text options_[kNumOptions]; 
+  sf::Text options_[kNumOptions];
   sf::Text title_;
 };
 

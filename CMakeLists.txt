@@ -11,7 +11,7 @@ project(
   LANGUAGES CXX
 )
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -25,4 +25,5 @@ else()
 	message(STATUS "No vcpkg toolchain file found!")
 endif()
 
+add_subdirectory(lib)
 add_subdirectory(src)

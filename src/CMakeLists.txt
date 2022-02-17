@@ -5,7 +5,7 @@ add_executable(Pong-SFML
   menu.cc
   player.cc
 )
-target_compile_features(Pong-SFML PUBLIC cxx_std_11)
+target_compile_features(Pong-SFML PUBLIC cxx_std_17)
 set_target_properties(Pong-SFML PROPERTIES CXX_EXTENSIONS OFF)
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
@@ -33,4 +33,5 @@ target_link_libraries(Pong-SFML PRIVATE
   sfml-graphics
   sfml-window
   sfml-audio
+  resources
 )

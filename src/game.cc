@@ -1,4 +1,5 @@
 #include "game.h"
+#include "../lib/resources.hpp"
 
 void Game::clean() {
   window_.close();
@@ -79,7 +80,7 @@ void Game::init() {
   // sounds
   initSound();
   // font for texts
-  if (!font_.loadFromFile("assets/AtariClassic-Regular.ttf")) {
+  if (!font_.loadFromFile(ktp::Resources::getResourcesPath() + "AtariClassic-Regular.ttf")) {
     exit(EXIT_FAILURE);
   } else {
     // pause text
@@ -96,9 +97,9 @@ void Game::init() {
 }
 
 void Game::initSound() {
-  if (!ball_bounce_player_buffer_.loadFromFile("assets/ping_pong_8bit_beeep.wav")
-  || (!ball_bounce_wall_buffer_.loadFromFile("assets/ping_pong_8bit_plop.wav"))
-  || (!ball_point_buffer_.loadFromFile("assets/ping_pong_8bit_peeeeeep.wav"))) {
+  if (!ball_bounce_player_buffer_.loadFromFile(ktp::Resources::getResourcesPath() + "ping_pong_8bit_beeep.wav")
+  || (!ball_bounce_wall_buffer_.loadFromFile(ktp::Resources::getResourcesPath() + "ping_pong_8bit_plop.wav"))
+  || (!ball_point_buffer_.loadFromFile(ktp::Resources::getResourcesPath() + "ping_pong_8bit_peeeeeep.wav"))) {
     exit(EXIT_FAILURE);
   }
   ball_.setSounds(&ball_bounce_player_buffer_, &ball_bounce_wall_buffer_, &ball_point_buffer_);
